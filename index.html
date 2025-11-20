@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Perpustakaan Modern</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Authentication Container -->
+    <div id="auth-container">
+      <!-- Landing Page -->
+      <section id="landing-page" class="auth-page active">
+        <div class="auth-content">
+          <h1><i class="fas fa-book-reader"></i> Perpustakaan Modern</h1>
+          <p>
+            Selamat datang di sistem manajemen perpustakaan yang elegan dan
+            efisien. Kelola koleksi dan pantau peminjaman dengan mudah.
+          </p>
+          <div class="auth-buttons">
+            <button class="btn-primary" onclick="showLoginPage()">
+              <i class="fas fa-sign-in-alt"></i> Masuk
+            </button>
+            <button class="btn-secondary" onclick="showRegisterPage()">
+              <i class="fas fa-user-plus"></i> Daftar
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Login Page -->
+      <section id="login-page" class="auth-page">
+        <div class="auth-content">
+          <h2><i class="fas fa-sign-in-alt"></i> Masuk</h2>
+          <form id="login-form">
+            <div class="form-group">
+              <input
+                type="text"
+                id="login-username"
+                placeholder="Username"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <input
+                type="password"
+                id="login-password"
+                placeholder="Password"
+                required
+              />
+            </div>
+            <button type="submit" class="btn-primary full-width">
+              <i class="fas fa-sign-in-alt"></i> Masuk
+            </button>
+          </form>
+          <p class="auth-switch">
+            Belum punya akun?
+            <a href="#" onclick="showRegisterPage()">Daftar di sini</a>
+          </p>
+        </div>
+      </section>
+
+      <!-- Register Page -->
+      <section id="register-page" class="auth-page">
+        <div class="auth-content">
+          <h2><i class="fas fa-user-plus"></i> Daftar</h2>
+          <form id="register-form">
+            <div class="form-group">
+              <input
+                type="text"
+                id="register-username"
+                placeholder="Username"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <input
+                type="password"
+                id="register-password"
+                placeholder="Password"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="register-role">Daftar Sebagai</label>
+              <select id="register-role" required>
+                <option value="user">Pengguna</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+            <button type="submit" class="btn-primary full-width">
+              <i class="fas fa-user-plus"></i> Daftar
+            </button>
+          </form>
+          <p class="auth-switch">
+            Sudah punya akun?
+            <a href="#" onclick="showLoginPage()">Masuk di sini</a>
+          </p>
+        </div>
+      </section>
+    </div>
+
+    <!-- Main Application Container -->
+    <div id="app-container" style="display: none">
+      <header>
+        <div class="header-content">
+          <h1><i class="fas fa-book-reader"></i> Perpustakaan Modern</h1>
+          <nav id="main-nav">
+            <!-- Navigation will be dynamically inserted here by JS -->
+          </nav>
+          <div class="user-menu">
+            <span
+              ><i class="fas fa-user-circle"></i>
+              <span id="current-user-display"></span
+            ></span>
+            <button class="btn-logout" onclick="handleLogout()">
+              <i class="fas fa-sign-out-alt"></i> Keluar
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <!-- Halaman Katalog Buku (untuk User) -->
+        <section id="katalog" class="page">
+          <div class="page-header">
+            <h2><i class="fas fa-books"></i> Katalog Buku</h2>
+            <p>Jelajahi koleksi buku yang tersedia</p>
+          </div>
+          <div id="katalog-grid" class="book-grid">
+            <!-- Book cards will be dynamically inserted here -->
+          </div>
+        </section>
+
+        <!-- Halaman Manajemen Buku (untuk Admin) -->
+        <section id="buku" class="page">
+          <div class="card">
+            <h2><i class="fas fa-books"></i> Manajemen Buku</h2>
+            <form id="formBuku" class="form-container">
+              <input type="hidden" id="editIndex" />
+              <div class="form-group">
+                <input
+                  type="text"
+                  id="judul"
+                  placeholder="Judul Buku"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <input
+                  type="text"
+                  id="penulis"
+                  placeholder="Penulis"
+                  required
+                />
+              </div>
+              <button type="submit" class="btn-primary">
+                <i class="fas fa-save"></i> Simpan Buku
+              </button>
+            </form>
+            <div class="table-container">
+              <table id="daftarBuku" class="data-table">
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Judul Buku</th>
+                    <th>Penulis</th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Halaman Peminjaman (untuk User & Admin) -->
+        <section id="pinjam" class="page">
+          <div class="card">
+            <h2><i class="fas fa-hand-holding"></i> Peminjaman Buku</h2>
+            <form id="formPinjam" class="form-container">
+              <div class="form-group">
+                <label for="bukuPilihan">Pilih Buku</label>
+                <select id="bukuPilihan" required></select>
+              </div>
+              <div class="form-group">
+                <label for="namaPeminjam">Nama Peminjam</label>
+                <input
+                  type="text"
+                  id="namaPeminjam"
+                  placeholder="Nama Peminjam"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="tanggal">Tanggal Peminjaman</label>
+                <input type="date" id="tanggal" required />
+              </div>
+              <button type="submit" class="btn-primary">
+                <i class="fas fa-check-circle"></i> Ajukan Peminjaman
+              </button>
+            </form>
+          </div>
+        </section>
+
+        <!-- Halaman Laporan (untuk Admin) -->
+        <section id="laporan" class="page">
+          <div class="card">
+            <h2><i class="fas fa-clipboard-list"></i> Laporan Peminjaman</h2>
+            <div class="table-container">
+              <table id="daftarPinjam" class="data-table">
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Judul Buku</th>
+                    <th>Nama Peminjam</th>
+                    <th>Tanggal Pinjam</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container"></div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
