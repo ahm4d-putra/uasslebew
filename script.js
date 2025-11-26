@@ -1,17 +1,39 @@
 // --- DATA MANAGEMENT ---
-// Initialize users array if it doesn't exist
-if (!localStorage.getItem("users")) {
-  localStorage.setItem("users", JSON.stringify([]));
+let users = [];
+let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
+
+// Load users from users.json
+async function loadUsers() {
+  try {
+    const response = await fetch("users.json");
+    if (!response.ok) {
+      throw new Error("Gagal memuat data pengguna");
+    }
+    users = await response.json();
+  } catch (error) {
+    console.error("Error loading users:", error);
+    showToast("Gagal memuat data pengguna", "error");
+  }
 }
 
-let users = JSON.parse(localStorage.getItem("users"));
-let currentUser = JSON.parse(localStorage.getItem("currentUser")) || null;
+// Save users to users.json (ini hanya contoh, di production perlu backend)
+async function saveUsers() {
+  try {
+    // Note: Di environment nyata, ini harus dikirim ke server
+    console.log("Simpan perubahan ke server:", users);
+    // Simpan ke localstorage
+    localStorage.setItem("users_backup", JSON.stringify(users));
+  } catch (error) {
+    console.error("Error saving users:", error);
+    showToast("Gagal menyimpan data pengguna", "error");
+  }
+}
 
 /// Data aplikasi
 let bukuList = JSON.parse(localStorage.getItem("bukuList")) || [];
 let pinjamList = JSON.parse(localStorage.getItem("pinjamList")) || [];
 
-// --- FUNGSI BARU: INISIALISASI DATA BUKU ---
+// --- FUNGSI: INISIALISASI DATA BUKU ---
 async function initializeBooks() {
   // Cek apakah localStorage buku sudah ada atau tidak
   if (bukuList.length === 0) {
@@ -128,10 +150,13 @@ function buildNavigation(role) {
   });
 }
 
-function handleLogin(event) {
+async function handleLogin(event) {
   event.preventDefault();
   const username = document.getElementById("login-username").value;
   const password = document.getElementById("login-password").value;
+
+  // Pastikan users sudah diload
+  await loadUsers();
 
   const user = users.find(
     (u) => u.username === username && u.password === password
@@ -148,11 +173,14 @@ function handleLogin(event) {
   document.getElementById("login-form").reset();
 }
 
-function handleRegister(event) {
+async function handleRegister(event) {
   event.preventDefault();
   const username = document.getElementById("register-username").value;
   const password = document.getElementById("register-password").value;
   const role = document.getElementById("register-role").value;
+
+  // Pastikan users sudah diload
+  await loadUsers();
 
   if (users.find((u) => u.username === username)) {
     showToast("Username sudah terdaftar!", "error");
@@ -161,7 +189,9 @@ function handleRegister(event) {
 
   const newUser = { username, password, role };
   users.push(newUser);
-  localStorage.setItem("users", JSON.stringify(users));
+
+  // Simpan perubahan
+  await saveUsers();
 
   currentUser = newUser;
   localStorage.setItem("currentUser", JSON.stringify(currentUser));
@@ -209,25 +239,29 @@ function loadKatalog() {
   const grid = document.getElementById("katalog-grid");
   grid.innerHTML = "";
 
-  if (bukuList.length === 0) {
-    grid.innerHTML =
-      '<p style="grid-column: 1/-1; text-align: center; color: var(--text-secondary);">Belum ada buku di katalog.</p>';
-    return;
-  }
-
-  bukuList.forEach((book, index) => {
-    const card = document.createElement("div");
-    card.className = "book-card";
-    card.innerHTML = `
-            <div>
-                <h3>${book.judul}</h3>
-                <p>oleh ${book.penulis}</p>
-            </div>
-            <button class="btn-primary full-width" onclick="pinjamDariKatalog('${book.judul}')">
-                <i class="fas fa-hand-holding"></i> Pinjam
-            </button>
-        `;
-    grid.appendChild(card);
+  bukuList.forEach((buku, index) => {
+    const bookCard = document.createElement("div");
+    bookCard.className = "book-card";
+    bookCard.innerHTML = `
+      <div class="book-cover-container">
+        <img src="${
+          buku.gambar || "https://via.placeholder.com/200x300?text=No+Cover"
+        }" 
+             alt="${buku.judul}" 
+             class="book-cover"
+             onerror="this.src='https://via.placeholder.com/200x300?text=Gagal+Muat+Gambar'">
+      </div>
+      <div class="book-info">
+        <h3>${buku.judul}</h3>
+        <p class="book-author">Oleh: ${buku.penulis}</p>
+        <button class="btn-primary" onclick="pinjamDariKatalog('${
+          buku.judul
+        }')">
+          <i class="fas fa-hand-holding"></i> Pinjam
+        </button>
+      </div>
+    `;
+    grid.appendChild(bookCard);
   });
 }
 
@@ -473,7 +507,10 @@ function showToast(message, type = "info") {
 
 // --- INITIALIZATION ---
 document.addEventListener("DOMContentLoaded", async function () {
-  // 1. Inisialisasi data buku terlebih dahulu
+  // 1. Inisialisasi data pengguna
+  await loadUsers();
+
+  // 2. Inisialisasi data buku
   await initializeBooks();
 
   // 2. Setelah itu, baru cek status autentikasi

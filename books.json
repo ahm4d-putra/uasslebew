@@ -1,50 +1,62 @@
 [
   {
     "judul": "Laskar Pelangi",
-    "penulis": "Andrea Hirata"
+    "penulis": "Andrea Hirata",
+    "gambar": "https://m.media-amazon.com/images/I/81zq3dH4bRL._AC_UF1000,1000_QL80_.jpg"
   },
   {
     "judul": "Sapiens: Riwayat Singkat Umat Manusia",
-    "penulis": "Yuval Noah Harari"
+    "penulis": "Yuval Noah Harari",
+    "gambar": "https://images-na.ssl-images-amazon.com/images/I/713jIoMO3UL._AC_UL600_SR600,600_.jpg"
   },
   {
     "judul": "Atomic Habits",
-    "penulis": "James Clear"
+    "penulis": "James Clear",
+    "gambar": "https://m.media-amazon.com/images/I/81bGKUa1e0L._AC_UF1000,1000_QL80_.jpg"
   },
   {
     "judul": "Filosofi Teras",
-    "penulis": "Henry Manampiring"
+    "penulis": "Henry Manampiring",
+    "gambar": "https://cdn.gramedia.com/uploads/items/9786024248408_Filosofi-Teras_Cov.jpg"
   },
   {
     "judul": "Ikigai",
-    "penulis": "Héctor García & Francesc Miralles"
+    "penulis": "Héctor García & Francesc Miralles",
+    "gambar": "https://m.media-amazon.com/images/I/814L+vq01gL._AC_UF1000,1000_QL80_.jpg"
   },
   {
     "judul": "Clean Code",
-    "penulis": "Robert C. Martin"
+    "penulis": "Robert C. Martin",
+    "gambar": "https://m.media-amazon.com/images/I/41xShlnTZTL._AC_UF1000,1000_QL80_.jpg"
   },
   {
     "judul": "The Pragmatic Programmer",
-    "penulis": "David Thomas & Andrew Hunt"
+    "penulis": "David Thomas & Andrew Hunt",
+    "gambar": "https://m.media-amazon.com/images/I/71f743sOPoL._AC_UF1000,1000_QL80_.jpg"
   },
   {
     "judul": "Educated",
-    "penulis": "Tara Westover"
+    "penulis": "Tara Westover",
+    "gambar": "https://m.media-amazon.com/images/I/71yNgTMEcpL._AC_UF1000,1000_QL80_.jpg"
   },
   {
     "judul": "Bumi Manusia",
-    "penulis": "Pramoedya Ananta Toer"
+    "penulis": "Pramoedya Ananta Toer",
+    "gambar": "https://cdn.gramedia.com/uploads/items/9786024243335_Bumi-Manusia.jpg"
   },
   {
     "judul": "Cantik Itu Luka",
-    "penulis": "Eka Kurniawan"
+    "penulis": "Eka Kurniawan",
+    "gambar": "https://cdn.gramedia.com/uploads/items/9786024246947_Cantik-Itu-Luka.jpg"
   },
   {
     "judul": "Negeri 5 Menara",
-    "penulis": "Ahmad Fuadi"
+    "penulis": "Ahmad Fuadi",
+    "gambar": "https://cdn.gramedia.com/uploads/items/9786022201406_Ne5m.jpg"
   },
   {
     "judul": "Supernova",
-    "penulis": "Dee Lestari"
+    "penulis": "Dee Lestari",
+    "gambar": "https://cdn.gramedia.com/uploads/items/9786020324857_Supernova--Ksatria-Putri--Dan-Bintang-Jatuh.jpg"
   }
 ]
